@@ -6,7 +6,8 @@ public class Main{
         gc.parseGraph("graph.dot");
         gc.addNode("e");
         gc.addEdge("a", "e");
-        gc.addEdge("e", "c");
+        gc.outputDOTGraph("output.dot");
+        gc.outputGraphics("output", "png");
         System.out.println(gc.toString());
         gc.outputGraph("output.txt");
     }

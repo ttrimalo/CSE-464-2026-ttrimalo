@@ -4,9 +4,8 @@ Node: b
 Node: c
 Node: d
 Node: e
-Edges: 5
+Edges: 4
 a -> b
 b -> c
 c -> d
 a -> e
-e -> c

@@ -1,5 +1,9 @@
 package org;
 
+import guru.nidi.graphviz.engine.Graphviz;
+import guru.nidi.graphviz.model.MutableGraph;
+import guru.nidi.graphviz.parse.Parser;
+
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
@@ -83,5 +87,24 @@ public class graphCommands{
         }
 
         graph.addEdge(srcLabel, dstLabel);
+    }
+
+    //Feature 4
+    public void outputDOTGraph(String path) throws IOException{
+        FileWriter writer = new FileWriter(path);
+        writer.write("digraph G {\n");
+        for(DefaultEdge e : graph.edgeSet()){
+            String src = graph.getEdgeSource(e);
+            String dst = graph.getEdgeTarget(e);
+            writer.write(src + " -> " + dst + ";\n");
+        }
+
+        writer.write("}");
+        writer.close();
+    }
+
+    public void outputGraphics(String path, String format) throws IOException{
+        MutableGraph g = new Parser().read(new File(path + ".dot"));
+        Graphviz.fromGraph(g).render(guru.nidi.graphviz.engine.Format.PNG).toFile(new File(path + ".png"));
     }
 }
