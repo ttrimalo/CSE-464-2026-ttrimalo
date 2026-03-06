@@ -14,6 +14,7 @@ public class graphCommands{
         graph = new DefaultDirectedGraph<>(DefaultEdge.class);
     }
 
+    //Feature 1
     public void parseGraph(String filepath) throws IOException{
         graph = new DefaultDirectedGraph<>(DefaultEdge.class);
         for(String line : Files.readAllLines(Paths.get(filepath))){
@@ -50,5 +51,21 @@ public class graphCommands{
         FileWriter writer = new FileWriter(filepath);
         writer.write(this.toString());
         writer.close();
+    }
+
+    //Feature 2
+    public void addNode(String label){
+        if(graph.containsVertex(label)){
+            System.out.println("Duplicate Node: " + label);
+            return;
+        }
+
+        graph.addVertex(label);
+    }
+
+    public void addNodes(String[] labels){
+        for(String label : labels){
+            addNode(label);
+        }
     }
 }

@@ -1,8 +1,11 @@
-Nodes: 4
+Nodes: 7
 Node: a
 Node: b
 Node: c
 Node: d
+Node: e
+Node: f
+Node: g
 Edges: 3
 a -> b
 b -> c
