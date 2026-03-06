@@ -51,6 +51,7 @@ public class graphCommandsTest {
         graph.addEdge("A", "B");
         graph.outputDOTGraph("test_output.dot");
         String fileContent = Files.readString(Paths.get("test_output.dot"));
+        graph.outputGraphics("test_output", "png");
 
         assertTrue(fileContent.contains("A -> B"));
     }
