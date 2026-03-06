@@ -5,8 +5,8 @@ public class Main{
         graphCommands gc = new graphCommands();
         gc.parseGraph("graph.dot");
         gc.addNode("e");
-        String[] nodes = {"f", "g"};
-        gc.addNodes(nodes);
+        gc.addEdge("a", "e");
+        gc.addEdge("e", "c");
         System.out.println(gc.toString());
         gc.outputGraph("output.txt");
     }

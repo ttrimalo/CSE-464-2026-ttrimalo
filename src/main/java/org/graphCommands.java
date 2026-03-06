@@ -68,4 +68,20 @@ public class graphCommands{
             addNode(label);
         }
     }
+
+    //Feature 3
+    public void addEdge(String srcLabel, String dstLabel){
+        if(!graph.containsVertex(srcLabel)){
+            graph.addVertex(srcLabel);
+        }
+        if(!graph.containsVertex(dstLabel)){
+            graph.addVertex(dstLabel);
+        }
+        if(graph.containsEdge(srcLabel, dstLabel)){
+            System.out.println("Duplicate Edge: " + srcLabel + " -> " + dstLabel);
+            return;
+        }
+
+        graph.addEdge(srcLabel, dstLabel);
+    }
 }
