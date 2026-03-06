@@ -1,0 +1,9 @@
+Nodes: 4
+Node: a
+Node: b
+Node: c
+Node: d
+Edges: 3
+a -> b
+b -> c
+c -> d
