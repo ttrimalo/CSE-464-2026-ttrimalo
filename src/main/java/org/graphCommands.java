@@ -14,6 +14,10 @@ import java.nio.file.Paths;
 public class graphCommands{
     private DefaultDirectedGraph<String, DefaultEdge> graph;
 
+    public DefaultDirectedGraph<String, DefaultEdge> getGraph(){
+        return graph;
+    }
+
     public graphCommands(){
         graph = new DefaultDirectedGraph<>(DefaultEdge.class);
     }
@@ -106,5 +110,42 @@ public class graphCommands{
     public void outputGraphics(String path, String format) throws IOException{
         MutableGraph g = new Parser().read(new File(path + ".dot"));
         Graphviz.fromGraph(g).render(guru.nidi.graphviz.engine.Format.PNG).toFile(new File(path + ".png"));
+    }
+
+    public void printGraphInfo(){
+        System.out.println("Number of nodes: " + graph.vertexSet().size());
+        System.out.println("Node labels:");
+        for (String node : graph.vertexSet()) {
+            System.out.println(node);
+        }
+
+        System.out.println("Number of edges: " + graph.edgeSet().size());
+    }
+
+    public void removeNode(String label){
+        if(!graph.containsVertex(label)){
+            throw new IllegalArgumentException("Node " + label + " does not exist.");
+        }
+
+        graph.removeVertex(label);
+    }
+
+    public void removeNodes(String[] label){
+        for(String node : label){
+            removeNode(node);
+        }
+    }
+
+    public void removeEdge(String srcLabel, String dstLabel){
+        if(!graph.containsVertex(srcLabel) || !graph.containsVertex(dstLabel)){
+            throw new IllegalArgumentException("One or both nodes do not exist.");
+        }
+
+        DefaultEdge edge = graph.getEdge(srcLabel, dstLabel);
+        if(edge == null){
+            throw new IllegalArgumentException("Edge does not exist.");
+        }
+
+        graph.removeEdge(edge);
     }
 }

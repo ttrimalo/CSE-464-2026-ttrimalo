@@ -13,7 +13,6 @@ public class graphCommandsTest {
         graphCommands graph = new graphCommands();
         graph.parseGraph("src/test/resources/testGraph.dot");
         String output = graph.toString();
-
         assertTrue(output.contains("A"));
         assertTrue(output.contains("B"));
         assertTrue(output.contains("C"));
@@ -28,7 +27,6 @@ public class graphCommandsTest {
         graphCommands graph = new graphCommands();
         graph.addNode("X");
         String output = graph.toString();
-
         assertTrue(output.contains("X"));
     }
 
@@ -39,7 +37,6 @@ public class graphCommandsTest {
         graph.addNode("B");
         graph.addEdge("A", "B");
         String output = graph.toString();
-
         assertTrue(output.contains("A -> B"));
     }
 
@@ -52,7 +49,53 @@ public class graphCommandsTest {
         graph.outputDOTGraph("test_output.dot");
         String fileContent = Files.readString(Paths.get("test_output.dot"));
         graph.outputGraphics("test_output", "png");
-
         assertTrue(fileContent.contains("A -> B"));
+    }
+
+    @Test
+    void testAddMultipleNodes() {
+        graphCommands graph = new graphCommands();
+        String[] nodes = {"A", "B", "C"};
+        graph.addNodes(nodes);
+        assertTrue(graph.getGraph().containsVertex("A"));
+        assertTrue(graph.getGraph().containsVertex("B"));
+        assertTrue(graph.getGraph().containsVertex("C"));
+    }
+
+    @Test
+    void testRemoveNode1(){         //SUCCESS
+        graphCommands graph = new graphCommands();
+        graph.addNode("A");
+        graph.removeNode("A");
+        assertFalse(graph.getGraph().containsVertex("A"));
+    }
+
+    @Test
+    void testRemoveNode2(){         //FAILURE
+        graphCommands graph = new graphCommands();
+        assertThrows(IllegalArgumentException.class, () -> {
+            graph.removeNode("X");
+        });
+    }
+
+    @Test
+    void testRemoveEdge1() {        //SUCCESS
+        graphCommands graph = new graphCommands();
+        graph.addNode("A");
+        graph.addNode("B");
+        graph.addEdge("A", "B");
+        graph.removeEdge("A", "B");
+        assertNull(graph.getGraph().getEdge("A", "B"));
+    }
+
+    @Test
+    void testRemoveEdgeFail() {
+        graphCommands graph = new graphCommands();
+        graph.addNode("A");
+        graph.addNode("B");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            graph.removeEdge("A", "B");
+        });
     }
 }
