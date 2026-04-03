@@ -9,8 +9,8 @@ public class Main{
         gc.addNode("C");
         gc.addEdge("A", "B");
         gc.addEdge("B", "C");
-        Path path = gc.graphSearch("A", "C");
-        System.out.println(path);
+        System.out.println("BFS: " + gc.graphSearch("A", "C", Algorithm.BFS));
+        System.out.println("DFS: " + gc.graphSearch("A", "C", Algorithm.DFS));
         gc.outputGraph("output.txt");
         gc.printGraphInfo();
     }

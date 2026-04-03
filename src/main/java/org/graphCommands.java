@@ -150,7 +150,15 @@ public class graphCommands{
         graph.removeEdge(edge);
     }
 
-    public Path graphSearch(String src, String dst){
+    public Path graphSearch(String src, String dst, Algorithm algo){
+        if(algo == Algorithm.BFS){
+            return bfs(src, dst);
+        } else {
+            return dfs(src, dst);
+        }
+    }
+
+    private Path bfs(String src, String dst){
         if(!graph.containsVertex(src)  || !graph.containsVertex(dst)){
             return null;
         }
@@ -177,5 +185,35 @@ public class graphCommands{
         }
 
         return null;
+    }
+
+    private Path dfs(String src, String dst){
+        Set<String> visited = new HashSet<>();
+        List<String> path = new ArrayList<>();
+        if(dfsHelper(src, dst, visited, path)){
+            return new Path(path);
+        }
+
+        return null;
+    }
+
+    private boolean dfsHelper(String currentNode, String dstNode, Set<String> visited, List<String> path){
+        visited.add(currentNode);
+        path.add(currentNode);
+        if(currentNode.equals(dstNode)){
+            return true;
+        }
+
+        for(DefaultEdge edge : graph.outgoingEdgesOf(currentNode)){
+            String neighbor = graph.getEdgeTarget(edge);
+            if(!visited.contains(neighbor)){
+                if(dfsHelper(neighbor, dstNode, visited, path)){
+                    return true;
+                }
+            }
+        }
+
+        path.removeLast();
+        return false;
     }
 }
