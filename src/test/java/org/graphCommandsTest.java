@@ -93,7 +93,6 @@ public class graphCommandsTest {
         graphCommands graph = new graphCommands();
         graph.addNode("A");
         graph.addNode("B");
-
         assertThrows(IllegalArgumentException.class, () -> {
             graph.removeEdge("A", "B");
         });

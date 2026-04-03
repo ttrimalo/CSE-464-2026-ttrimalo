@@ -6,12 +6,12 @@ public class Main{
         gc.parseGraph("graph.dot");
         gc.addNode("A");
         gc.addNode("B");
+        gc.addNode("C");
         gc.addEdge("A", "B");
-        gc.removeEdge("A", "B");
-        gc.removeNode("A");
-        System.out.println("Remaining nodes: " + gc.getGraph().vertexSet());
+        gc.addEdge("B", "C");
+        Path path = gc.graphSearch("A", "C");
+        System.out.println(path);
         gc.outputGraph("output.txt");
         gc.printGraphInfo();
     }
-
 }
