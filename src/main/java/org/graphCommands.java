@@ -10,6 +10,7 @@ import org.jgrapht.graph.DefaultEdge;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.*;
 
 public class graphCommands{
     private DefaultDirectedGraph<String, DefaultEdge> graph;
@@ -147,5 +148,35 @@ public class graphCommands{
         }
 
         graph.removeEdge(edge);
+    }
+
+    public Path graphSearch(String src, String dst){
+        Set<String> visited = new HashSet<>();
+        List<String> path = new ArrayList<>();
+        if(dfs(src, dst, visited, path)){
+            return new Path(path);
+        }
+
+        return null;
+    }
+
+    private boolean dfs(String currentNode, String dstNode, Set<String> visited, List<String> path){
+        visited.add(currentNode);
+        path.add(currentNode);
+        if(currentNode.equals(dstNode)){
+            return true;
+        }
+
+        for(DefaultEdge edge : graph.outgoingEdgesOf(currentNode)){
+            String neighbor = graph.getEdgeTarget(edge);
+            if(!visited.contains(neighbor)){
+                if(dfs(neighbor, dstNode, visited, path)){
+                    return true;
+                }
+            }
+        }
+
+        path.removeLast();
+        return false;
     }
 }
