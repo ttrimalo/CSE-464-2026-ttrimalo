@@ -89,12 +89,49 @@ public class graphCommandsTest {
     }
 
     @Test
-    void testRemoveEdgeFail() {
+    void testRemoveEdge2() {        //FAILURE
         graphCommands graph = new graphCommands();
         graph.addNode("A");
         graph.addNode("B");
         assertThrows(IllegalArgumentException.class, () -> {
             graph.removeEdge("A", "B");
         });
+    }
+
+    @Test
+    void testBFS(){
+        graphCommands gc = new graphCommands();
+        gc.addNode("A");
+        gc.addNode("B");
+        gc.addNode("C");
+        gc.addNode("D");
+        gc.addNode("E");
+        gc.addEdge("A","B");
+        gc.addEdge("A","C");
+        gc.addEdge("B","D");
+        gc.addEdge("C","D");
+        gc.addEdge("D","E");
+        Path bfs = gc.graphSearch("A", "E", Algorithm.BFS);
+        assertNotNull(bfs);
+        assertEquals("A -> B -> D -> E", bfs.toString());
+    }
+
+    @Test
+    void testDFS(){
+        graphCommands gc = new graphCommands();
+        gc.addNode("A");
+        gc.addNode("B");
+        gc.addNode("C");
+        gc.addNode("D");
+        gc.addNode("E");
+        gc.addEdge("A","B");
+        gc.addEdge("A","C");
+        gc.addEdge("B","D");
+        gc.addEdge("C","D");
+        gc.addEdge("D","E");
+        Path dfs = gc.graphSearch("A", "E", Algorithm.DFS);
+        assertNotNull(dfs);
+        assertTrue(dfs.toString().startsWith("A"));
+        assertTrue(dfs.toString().endsWith("E"));
     }
 }
