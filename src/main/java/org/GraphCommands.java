@@ -151,13 +151,15 @@ public class GraphCommands{
         graph.removeEdge(edge);
     }
 
-    public Path graphSearch(String src, String dst, Algorithm algo){
-        searchStrategy strategy = switch (algo) {
+    private searchStrategy createStrategy(Algorithm algo){
+        return switch (algo) {
             case BFS -> new BFSSearch(graph);
             case DFS -> new DFSSearch(graph);
             default -> new RandomWalkSearch(graph);
         };
+    }
 
-        return strategy.search(src, dst);
+    public Path graphSearch(String src, String dst, Algorithm algo){
+        return createStrategy(algo).search(src,dst);
     }
 }
