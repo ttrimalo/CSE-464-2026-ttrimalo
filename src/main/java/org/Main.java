@@ -1,21 +1,17 @@
 package org;
 
-public class Main{
-    public static void main(String[] args) throws Exception{
-        graphCommands gc = new graphCommands();
-        gc.addNode("A");
-        gc.addNode("B");
-        gc.addNode("C");
-        gc.addNode("D");
-        gc.addNode("E");
-        gc.addEdge("A","B");
-        gc.addEdge("A","C");
-        gc.addEdge("B","D");
-        gc.addEdge("C","D");
-        gc.addEdge("D","E");
-        System.out.println("BFS Path:");
-        System.out.println(gc.graphSearch("A", "E", Algorithm.BFS));
-        System.out.println("\nDFS Path:");
-        System.out.println(gc.graphSearch("A", "E", Algorithm.DFS));
+public class Main {
+    public static void main(String[] args) throws Exception {
+        GraphCommands g = new GraphCommands();
+        g.parseGraph("input.dot");
+        System.out.println("=== BFS ===");
+        g.graphSearch("a","c", Algorithm.BFS);
+        System.out.println("\n=== DFS ===");
+        g.graphSearch("a","c", Algorithm.DFS);
+        System.out.println("\n=== RANDOM WALK ===");
+        for(int i=1;i<=5;i++){
+            System.out.println("\nRun " + i);
+            g.graphSearch("a","c", Algorithm.RANDOM);
+        }
     }
 }

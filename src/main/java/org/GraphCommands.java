@@ -10,16 +10,15 @@ import org.jgrapht.graph.DefaultEdge;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
 
-public class graphCommands{
+public class GraphCommands{
     private DefaultDirectedGraph<String, DefaultEdge> graph;
 
     public DefaultDirectedGraph<String, DefaultEdge> getGraph(){
         return graph;
     }
 
-    public graphCommands(){
+    public GraphCommands(){
         graph = new DefaultDirectedGraph<>(DefaultEdge.class);
     }
 
@@ -151,69 +150,12 @@ public class graphCommands{
     }
 
     public Path graphSearch(String src, String dst, Algorithm algo){
-        if(algo == Algorithm.BFS){
-            return bfs(src, dst);
-        } else {
-            return dfs(src, dst);
-        }
-    }
+        searchStrategy strategy = switch (algo) {
+            case BFS -> new BFSSearch(graph);
+            case DFS -> new DFSSearch(graph);
+            default -> new RandomWalkSearch(graph);
+        };
 
-    private Path bfs(String src, String dst){
-        if(!graph.containsVertex(src)  || !graph.containsVertex(dst)){
-            return null;
-        }
-
-        Queue<List<String>> queue = new LinkedList<>();
-        Set<String> visited = new HashSet<>();
-        queue.add(List.of(src));
-        while(!queue.isEmpty()){
-            List<String> path = queue.poll();
-            String last = path.getLast();
-            if(last.equals(dst)){
-                return new Path(path);
-            }
-
-            if(!visited.contains(last)){
-                visited.add(last);
-                for(DefaultEdge edge : graph.outgoingEdgesOf(last)){
-                    String neighbor = graph.getEdgeTarget(edge);
-                    List<String> newPath = new ArrayList<>(path);
-                    newPath.add(neighbor);
-                    queue.add(newPath);
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private Path dfs(String src, String dst){
-        Set<String> visited = new HashSet<>();
-        List<String> path = new ArrayList<>();
-        if(dfsHelper(src, dst, visited, path)){
-            return new Path(path);
-        }
-
-        return null;
-    }
-
-    private boolean dfsHelper(String currentNode, String dstNode, Set<String> visited, List<String> path){
-        visited.add(currentNode);
-        path.add(currentNode);
-        if(currentNode.equals(dstNode)){
-            return true;
-        }
-
-        for(DefaultEdge edge : graph.outgoingEdgesOf(currentNode)){
-            String neighbor = graph.getEdgeTarget(edge);
-            if(!visited.contains(neighbor)){
-                if(dfsHelper(neighbor, dstNode, visited, path)){
-                    return true;
-                }
-            }
-        }
-
-        path.removeLast();
-        return false;
+        return strategy.search(src, dst);
     }
 }
