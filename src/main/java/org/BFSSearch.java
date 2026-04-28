@@ -10,7 +10,7 @@ public class BFSSearch extends AbstractGraphSearch {
     }
 
     protected void initialize(String src){
-        queue = new LinkedList<>();
+        queue = new ArrayDeque<>();
         queue.add(List.of(src));
     }
 
