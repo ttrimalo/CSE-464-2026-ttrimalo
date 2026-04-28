@@ -82,6 +82,7 @@ public class GraphCommands{
             graph.addVertex(label);
         }
     }
+
     //Feature 3
     public void addEdge(String srcLabel, String dstLabel){
         ensureVertexExists(srcLabel);
@@ -96,16 +97,16 @@ public class GraphCommands{
 
     //Feature 4
     public void outputDOTGraph(String path) throws IOException{
-        FileWriter writer = new FileWriter(path);
-        writer.write("digraph G {\n");
-        for(DefaultEdge e : graph.edgeSet()){
-            String src = graph.getEdgeSource(e);
-            String dst = graph.getEdgeTarget(e);
-            writer.write(src + " -> " + dst + ";\n");
-        }
+        try(FileWriter writer = new FileWriter(path)) {
+            writer.write("digraph G {\n");
+            for(DefaultEdge e : graph.edgeSet()){
+                String src = graph.getEdgeSource(e);
+                String dst = graph.getEdgeTarget(e);
+                writer.write(src + " -> " + dst + ";\n");
+            }
 
-        writer.write("}");
-        writer.close();
+            writer.write("}");
+        }
     }
 
     public void outputGraphics(String path, String format) throws IOException{
