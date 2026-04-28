@@ -4,34 +4,57 @@ import org.jgrapht.graph.DefaultEdge;
 import java.util.*;
 
 public class RandomWalkSearch extends AbstractGraphSearch {
-    private Queue<List<String>> queue;
-    private Random random = new Random();
-    public RandomWalkSearch(DefaultDirectedGraph<String, DefaultEdge> graph){
+    private final Random random = new Random();
+    public RandomWalkSearch(DefaultDirectedGraph<String, DefaultEdge> graph) {
         super(graph);
     }
 
-    protected void initialize(String src){
-        queue = new LinkedList<>();
-        queue.add(List.of(src));
-    }
+    @Override
+    public Path search(String src, String dst) {
+        if (!graph.containsVertex(src) || !graph.containsVertex(dst)) {
+            return null;
+        }
 
-    protected boolean hasNext(){
-        return !queue.isEmpty();
-    }
+        Set<String> visited = new HashSet<>();
+        List<String> path = new ArrayList<>();
+        String current = src;
+        visited.add(current);
+        path.add(current);
+        System.out.println("Visit Node History: " + current);
+        while (true) {
+            if (current.equals(dst)) {
+                System.out.println("Found target node: " + dst);
+                return new Path(path);
+            }
 
-    protected List<String> nextPath(){
-        return queue.poll();
-    }
+            List<String> choices = new ArrayList<>();
+            for (DefaultEdge edge : graph.outgoingEdgesOf(current)) {
+                String neighbor = graph.getEdgeTarget(edge);
+                if (!visited.contains(neighbor)) {
+                    choices.add(neighbor);
+                }
+            }
 
-    protected void addPath(List<String> path){
-        queue.clear();
-        queue.add(path);
+            Collections.sort(choices);
+            if (choices.isEmpty()) {
+                System.out.println("Reached dead end at node " + current);
+                return null;
+            }
+
+            String next = choices.get(random.nextInt(choices.size()));
+            visited.add(next);
+            path.add(next);
+            System.out.println("Visit Node History: " + String.join("-", path));
+            current = next;
+        }
     }
 
     @Override
-    protected List<String> getSortedNeighbors(String node){
-        List<String> neighbors = super.getSortedNeighbors(node);
-        Collections.shuffle(neighbors);
-        return neighbors;
-    }
+    protected void initialize(String src) {}
+    @Override
+    protected boolean hasNext() { return false; }
+    @Override
+    protected List<String> nextPath() {return List.of();}
+    @Override
+    protected void addPath(List<String> path) {}
 }
