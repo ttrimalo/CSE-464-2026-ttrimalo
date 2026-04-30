@@ -10,7 +10,7 @@ public class graphCommandsTest {
 
     @Test
     public void testParseGraph() throws Exception {
-        graphCommands graph = new graphCommands();
+        GraphCommands graph = new GraphCommands();
         graph.parseGraph("src/test/resources/testGraph.dot");
         String output = graph.toString();
         assertTrue(output.contains("A"));
@@ -24,7 +24,7 @@ public class graphCommandsTest {
 
     @Test
     public void testAddNode() {
-        graphCommands graph = new graphCommands();
+        GraphCommands graph = new GraphCommands();
         graph.addNode("X");
         String output = graph.toString();
         assertTrue(output.contains("X"));
@@ -32,7 +32,7 @@ public class graphCommandsTest {
 
     @Test
     public void testAddEdge() {
-        graphCommands graph = new graphCommands();
+        GraphCommands graph = new GraphCommands();
         graph.addNode("A");
         graph.addNode("B");
         graph.addEdge("A", "B");
@@ -42,7 +42,7 @@ public class graphCommandsTest {
 
     @Test
     public void testOutputDOTGraph() throws Exception {
-        graphCommands graph = new graphCommands();
+        GraphCommands graph = new GraphCommands();
         graph.addNode("A");
         graph.addNode("B");
         graph.addEdge("A", "B");
@@ -54,7 +54,7 @@ public class graphCommandsTest {
 
     @Test
     void testAddMultipleNodes() {
-        graphCommands graph = new graphCommands();
+        GraphCommands graph = new GraphCommands();
         String[] nodes = {"A", "B", "C"};
         graph.addNodes(nodes);
         assertTrue(graph.getGraph().containsVertex("A"));
@@ -64,7 +64,7 @@ public class graphCommandsTest {
 
     @Test
     void testRemoveNode1(){         //SUCCESS
-        graphCommands graph = new graphCommands();
+        GraphCommands graph = new GraphCommands();
         graph.addNode("A");
         graph.removeNode("A");
         assertFalse(graph.getGraph().containsVertex("A"));
@@ -72,7 +72,7 @@ public class graphCommandsTest {
 
     @Test
     void testRemoveNode2(){         //FAILURE
-        graphCommands graph = new graphCommands();
+        GraphCommands graph = new GraphCommands();
         assertThrows(IllegalArgumentException.class, () -> {
             graph.removeNode("X");
         });
@@ -80,7 +80,7 @@ public class graphCommandsTest {
 
     @Test
     void testRemoveEdge1() {        //SUCCESS
-        graphCommands graph = new graphCommands();
+        GraphCommands graph = new GraphCommands();
         graph.addNode("A");
         graph.addNode("B");
         graph.addEdge("A", "B");
@@ -90,7 +90,7 @@ public class graphCommandsTest {
 
     @Test
     void testRemoveEdge2() {        //FAILURE
-        graphCommands graph = new graphCommands();
+        GraphCommands graph = new GraphCommands();
         graph.addNode("A");
         graph.addNode("B");
         assertThrows(IllegalArgumentException.class, () -> {
@@ -100,7 +100,7 @@ public class graphCommandsTest {
 
     @Test
     void testBFS(){
-        graphCommands gc = new graphCommands();
+        GraphCommands gc = new GraphCommands();
         gc.addNode("A");
         gc.addNode("B");
         gc.addNode("C");
@@ -118,7 +118,7 @@ public class graphCommandsTest {
 
     @Test
     void testDFS(){
-        graphCommands gc = new graphCommands();
+        GraphCommands gc = new GraphCommands();
         gc.addNode("A");
         gc.addNode("B");
         gc.addNode("C");
